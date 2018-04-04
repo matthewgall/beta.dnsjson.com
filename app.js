@@ -12,6 +12,41 @@ function cleanArray(actual) {
   return newArray;
 }
 
+function returnHeader(title="Turning dig... to JSON") {
+  html = `<!DOCTYPE html>
+          <html lang="en">
+          <head>
+          <meta charset="utf-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>dnsjson.com | ${title}</title>
+          <link href="/static/bootstrap.min.css" rel="stylesheet">
+          <style type="text/css">body{padding-top:50px;margin-bottom:60px}.starter-template{padding:40px 15px;text-align:center}.btn-primary,.navbar-inverse,.panel-primary>.panel-heading{background-color:#0077da}a.navbar-brand{color:#fff}.footer{position:fixed;bottom:0;width:100%;height:60px;background-color:#f5f5f5}.container .text-muted{margin:20px 0;color:#707070}</style>
+          </head>
+          <body>
+          <nav class="navbar navbar-inverse navbar-fixed-top">
+          <div class="container">
+          <div class="navbar-header">
+          <a class="navbar-brand" href="/">dnsjson.com</a>
+          </div>
+          </div>
+          </nav>`
+  return html
+}
+
+function returnFooter() {
+  html = `<footer class="footer">
+          <div class="container">
+          <p class="text-muted">&copy; <script type="text/javascript">document.write(new Date().getFullYear());</script> dnsjson.com - This script is written using only <a href="https://cloudflareworkers.com" target="_blank">Cloudflare Workers</a></p>',
+          </div>
+          </footer>
+          <script src="/static/jquery.min.js"></script>
+          <script src="/static/bootstrap.min.js"></script>
+          </body>
+          </html>`
+  return html
+}
+
 /**
  * Fetch and log a given request object
  * @param {Request} request
@@ -56,25 +91,7 @@ async function fetchAndRespond(request) {
         })
       }
       if (request.method == 'GET') {
-        html = `<!DOCTYPE html>
-          <html lang="en">
-          <head>
-          <meta charset="utf-8">
-          <meta http-equiv="X-UA-Compatible" content="IE=edge">
-          <meta name="viewport" content="width=device-width, initial-scale=1">
-          <title>dnsjson.com | Turning dig... to JSON</title>
-          <link href="/static/bootstrap.min.css" rel="stylesheet">
-          <style type="text/css">body{padding-top:50px;margin-bottom:60px}.starter-template{padding:40px 15px;text-align:center}.btn-primary,.navbar-inverse,.panel-primary>.panel-heading{background-color:#0077da}a.navbar-brand{color:#fff}.footer{position:fixed;bottom:0;width:100%;height:60px;background-color:#f5f5f5}.container .text-muted{margin:20px 0;color:#707070}</style>
-          </head>
-          <body>
-          <nav class="navbar navbar-inverse navbar-fixed-top">
-          <div class="container">
-          <div class="navbar-header">
-          <a class="navbar-brand" href="/">dnsjson.com</a>
-          </div>
-          </div>
-          </nav>
-          <div class="container">
+        html = `<div class="container">
           <div class="starter-template">
           <h1>Welcome to dnsjson</h1>
           <p class="lead">
@@ -107,16 +124,13 @@ async function fetchAndRespond(request) {
           </div>
           </div>
           </div>
-          <footer class="footer">
-          <div class="container">
-          <p class="text-muted">&copy; <script type="text/javascript">document.write(new Date().getFullYear());</script> dnsjson.com - This script is written using only <a href="https://cloudflareworkers.com" target="_blank">Cloudflare Workers</a></p>',
-          </div>
-          </footer>
-          <script src="/static/jquery.min.js"></script>
-          <script src="/static/bootstrap.min.js"></script>
-          </body>
-          </html>`
-        return new Response(html, {
+          `
+        output = [
+          returnHeader('Turning dig... to JSON'),
+          html,
+          returnFooter()
+        ]
+        return new Response(output.join('\r\n'), {
           headers: {'Content-Type': 'text/html'}
         })
       }
