@@ -255,7 +255,7 @@ ${res['results']['records'].join('\r\n')}
           </div>
           </div>`
         output = [
-          returnHeader(`$(res['results']['name']) (${res['results']['type']})`),
+          returnHeader(res['results']['name'] + '(' + res['results']['type'] + ')'),
           data,
           returnFooter()
         ]
