@@ -91,7 +91,7 @@ async function fetchAndRespond(request) {
         })
       }
       if (request.method == 'GET') {
-        html = `<div class="container">
+        let data = `<div class="container">
           <div class="starter-template">
           <h1>Welcome to dnsjson</h1>
           <p class="lead">
@@ -127,7 +127,7 @@ async function fetchAndRespond(request) {
           `
         output = [
           returnHeader('Turning dig... to JSON'),
-          html,
+          data,
           returnFooter()
         ]
         return new Response(output.join('\r\n'), {
