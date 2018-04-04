@@ -202,25 +202,7 @@ async function fetchAndRespond(request) {
           return new Response(JSON.stringify(res), headers)
         }
         if (request.headers.get('Content-Type') == 'text/html' || ctype == 'html')
-        html = `<!DOCTYPE html>
-          <html lang="en">
-          <head>
-          <meta charset="utf-8">
-          <meta http-equiv="X-UA-Compatible" content="IE=edge">
-          <meta name="viewport" content="width=device-width, initial-scale=1">
-          <title>dnsjson.com | ${res['results']['name']} (${res['results']['type']})</title>
-          <link href="/static/bootstrap.min.css" rel="stylesheet">
-          <style type="text/css">body{padding-top:50px;margin-bottom:60px}.starter-template{padding:40px 15px;text-align:center}.btn-primary,.navbar-inverse,.panel-primary>.panel-heading{background-color:#0077da}a.navbar-brand{color:#fff}.footer{position:fixed;bottom:0;width:100%;height:60px;background-color:#f5f5f5}.container .text-muted{margin:20px 0;color:#707070}</style>
-          </head>
-          <body>
-          <nav class="navbar navbar-inverse navbar-fixed-top">
-          <div class="container">
-          <div class="navbar-header">
-          <a class="navbar-brand" href="/">dnsjson.com</a>
-          </div>
-          </div>
-          </nav>
-          <div class="container">
+        data = `<div class="container">
           <div class="starter-template">
           <div class="well well-lg">
           <h1>${res['results']['name']} (${res['results']['type']})</h1>
@@ -271,17 +253,13 @@ ${res['results']['records'].join('\r\n')}
           </div>
           </div>
           </div>
-          </div>
-          <footer class="footer">
-          <div class="container">
-          <p class="text-muted">&copy; <script type="text/javascript">document.write(new Date().getFullYear());</script> dnsjson.com - This script is written using only <a href="https://cloudflareworkers.com" target="_blank">Cloudflare Workers</a></p>',
-          </div>
-          </footer>
-          <script src="/static/jquery.min.js"></script>
-          <script src="/static/bootstrap.min.js"></script>
-          </body>
-          </html>`
-        return new Response(html, {
+          </div>`
+        output = [
+          returnHeader(`$(res['results']['name']) (${res['results']['type']})`),
+          data,
+          returnFooter()
+        ]
+        return new Response(output.join('\r\n'), {
           headers: {'Content-Type': 'text/html'}
         })
       }
