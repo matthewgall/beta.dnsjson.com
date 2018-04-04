@@ -131,7 +131,10 @@ async function fetchAndRespond(request) {
           returnFooter()
         ]
         return new Response(output.join('\r\n'), {
-          headers: {'Content-Type': 'text/html'}
+          headers: {
+            'Content-Type': 'text/html',
+            'Access-Control-Allow-Origin': '*'
+          }
         })
       }
     }
@@ -139,21 +142,30 @@ async function fetchAndRespond(request) {
       req = await fetch('https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/cosmo/bootstrap.min.css')
       req = await(req.body)
       return new Response(req, {
-        headers: {'Content-Type': 'text/css'}
+        headers: {
+          'Content-Type': 'text/css',
+          'Access-Control-Allow-Origin': '*'
+        }
       })
     }
     if (reqUrl == '/static/bootstrap.min.js') {
       req = await fetch('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js')
       req = await(req.body)
       return new Response(req, {
-        headers: {'Content-Type': 'application/javascript'}
+        headers: {
+          'Content-Type': 'application/javascript',
+          'Access-Control-Allow-Origin': '*'
+        }
       })    
     }
     if (reqUrl == '/static/jquery.min.js') {
       req = await fetch('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js')
       req = await(req.body)
       return new Response(req, {
-        headers: {'Content-Type': 'text/javascript'}
+        headers: {
+          'Content-Type': 'text/javascript',
+          'Access-Control-Allow-Origin': '*'
+        }
       })    
     }
     else {
@@ -191,13 +203,19 @@ async function fetchAndRespond(request) {
 
         if (request.headers.get('Content-Type') == 'text/plain' || ctype == 'txt') {
           headers = {
-            headers: {'Content-Type': 'text/plain'}
+            headers: {
+              'Content-Type': 'text/plain',
+              'Access-Control-Allow-Origin': '*'
+            }
           }
           return new Response(res['results']['records'].join('\r\n'), headers)
         }
         if (request.headers.get('Content-Type') == 'application/json' || ctype == 'json') {
           headers = {
-            headers: {'Content-Type': 'application/json'}
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            }
           }
           return new Response(JSON.stringify(res), headers)
         }
@@ -260,12 +278,18 @@ ${res['results']['records'].join('\r\n')}
           returnFooter()
         ]
         return new Response(output.join('\r\n'), {
-          headers: {'Content-Type': 'text/html'}
+          headers: {
+            'Content-Type': 'text/html',
+            'Access-Control-Allow-Origin': '*'
+          }
         })
       }
       else {
         headers = {
-          headers: {'Content-Type': 'application/json'}
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
         }
         res = {
           'success': false,
