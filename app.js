@@ -201,6 +201,10 @@ async function fetchAndRespond(request) {
           res['results']['records'].push(req.Answer[val]['data'])
         }
 
+        if (res['results']['records'].length < 1) {
+          res['results']['records'].push(`Unable to find any ${qtype} records for ${domain}`)
+        }
+
         if (request.headers.get('Content-Type') == 'text/plain' || ctype == 'txt') {
           headers = {
             headers: {
